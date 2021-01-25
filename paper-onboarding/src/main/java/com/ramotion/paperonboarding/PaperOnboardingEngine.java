@@ -189,7 +189,7 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
     /**
      * @param prev set true to animate onto previous content page (default is false - animating to next content page)
      */
-    protected void toggleContent(boolean prev) {
+    public void toggleContent(boolean prev) {
         int oldElementIndex = mActiveElementIndex;
         PaperOnboardingPage newElement = prev ? toggleToPreviousElement() : toggleToNextElement();
 
@@ -538,5 +538,8 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
         return (int) (dpValue * dpToPixelsScaleFactor + 0.5f);
     }
 
+    public int getSize() {
+        return mElements.size();
+    }
 
 }
