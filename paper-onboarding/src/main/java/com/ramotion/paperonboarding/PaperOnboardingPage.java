@@ -12,6 +12,7 @@ public class PaperOnboardingPage implements Serializable {
     private int bgColor;
     private int contentIconRes;
     private int bottomBarIconRes;
+    private boolean isGif;
 
     public PaperOnboardingPage() {
     }
@@ -22,6 +23,23 @@ public class PaperOnboardingPage implements Serializable {
         this.bottomBarIconRes = bottomBarIconRes;
         this.descriptionText = descriptionText;
         this.titleText = titleText;
+    }
+
+    public PaperOnboardingPage(String titleText, String descriptionText, int bgColor, int contentIconRes, int bottomBarIconRes, boolean isGif) {
+        this.bgColor = bgColor;
+        this.contentIconRes = contentIconRes;
+        this.bottomBarIconRes = bottomBarIconRes;
+        this.descriptionText = descriptionText;
+        this.titleText = titleText;
+        this.isGif = isGif;
+    }
+
+    public boolean isGif() {
+        return isGif;
+    }
+
+    public void setGif(boolean gif) {
+        isGif = gif;
     }
 
     public String getTitleText() {

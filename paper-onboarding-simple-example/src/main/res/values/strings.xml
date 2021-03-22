@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">paper-onboarding-android</string>
+    <string name="text_finish">시잔해보기</string>
+    <string name="text_next">다음</string>
+    <string name="text_skip">건너뛰기</string>
+    <string name="text_desc_splash_screen1">컨트롤이 쉬워진\n마사지 리모컨을\n사용해보세요</string>
+    <string name="text_desc_splash_screen2">안마를 받으며\n다양한 콘텐츠를\n즐겨보세요</string>
+    <string name="text_desc_splash_screen3">나의 통계를\n한눈에\n확인하세요</string>
 </resources>

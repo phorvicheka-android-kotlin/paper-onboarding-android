@@ -53,15 +53,17 @@ public class PaperOnboardingActivity extends AppCompatActivity {
             @Override
             public void onPageChanged(int oldElementIndex, int newElementIndex) {
                 Toast.makeText(getApplicationContext(), "Swiped from " + oldElementIndex + " to " + newElementIndex, Toast.LENGTH_SHORT).show();
-                if (newElementIndex > 0 && newElementIndex+1 != engine.getSize()) {
+                if (newElementIndex == 0 || newElementIndex+1 != engine.getSize()) {
                     nextTextView.setVisibility(View.VISIBLE);
                 } else {
                     nextTextView.setVisibility(View.GONE);
                 }
                 if(newElementIndex+1 == engine.getSize()) {
                     finishTextView.setVisibility(View.VISIBLE);
+                    skipTextView.setVisibility(View.GONE);
                 } else {
                     finishTextView.setVisibility(View.GONE);
+                    skipTextView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -79,12 +81,12 @@ public class PaperOnboardingActivity extends AppCompatActivity {
     // Just example data for Onboarding
     private ArrayList<PaperOnboardingPage> getDataForOnboarding() {
         // prepare data
-        PaperOnboardingPage scr1 = new PaperOnboardingPage("Hotels", "All hotels and hostels are sorted by hospitality rating",
-                Color.parseColor("#678FB4"), R.drawable.hotels, R.drawable.key);
-        PaperOnboardingPage scr2 = new PaperOnboardingPage("Banks", "We carefully verify all banks before add them into the app",
-                Color.parseColor("#65B0B4"), R.drawable.banks, R.drawable.wallet);
-        PaperOnboardingPage scr3 = new PaperOnboardingPage("Stores", "All local stores are categorized for your convenience",
-                Color.parseColor("#9B90BC"), R.drawable.stores, R.drawable.shopping_cart);
+        PaperOnboardingPage scr1 = new PaperOnboardingPage("01", "컨트롤이 쉬워진\n마사지 리모컨을\n사용해보세요",
+                Color.parseColor("#ECF0F3"), R.drawable.gif_splash_screen1, R.drawable.bg_selected_indicator, true);
+        PaperOnboardingPage scr2 = new PaperOnboardingPage("02", "컨트롤이 쉬워진\n마사지 리모컨을\n사용해보세요",
+                Color.parseColor("#ECF0F3"), R.drawable.gif_splash_screen2, R.drawable.bg_selected_indicator, true);
+        PaperOnboardingPage scr3 = new PaperOnboardingPage("03", "컨트롤이 쉬워진\n마사지 리모컨을\n사용해보세요",
+                Color.parseColor("#ECF0F3"), R.drawable.gif_splash_screen3, R.drawable.bg_selected_indicator, true);
 
         ArrayList<PaperOnboardingPage> elements = new ArrayList<>();
         elements.add(scr1);

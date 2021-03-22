@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ramotion.paperonboarding.listeners.AnimatorEndListener;
 import com.ramotion.paperonboarding.listeners.OnSwipeListener;
 import com.ramotion.paperonboarding.listeners.PaperOnboardingOnChangeListener;
@@ -216,24 +216,27 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
         // 4 animate content text
         ViewGroup newContentText = createContentTextView(newElement);
         mContentTextContainer.addView(newContentText);
-        AnimatorSet contentTextShowAnimation = createContentTextShowAnimation(
-                mContentTextContainer.getChildAt(mContentTextContainer.getChildCount() - 2), newContentText);
+        View currentContentText = mContentTextContainer.getChildAt(mContentTextContainer.getChildCount() - 2);
+        AnimatorSet contentTextShowAnimation = createContentTextShowAnimation(currentContentText, newContentText);
 
         // 5 animate content icon
         ImageView newContentIcon = createContentIconView(newElement);
         mContentIconContainer.addView(newContentIcon);
-        AnimatorSet contentIconShowAnimation = createContentIconShowAnimation(
-                mContentIconContainer.getChildAt(mContentIconContainer.getChildCount() - 2), newContentIcon);
+        View currentContentIcon = mContentIconContainer.getChildAt(mContentIconContainer.getChildCount() - 2);
+        AnimatorSet contentIconShowAnimation = createContentIconShowAnimation2(currentContentIcon, newContentIcon);
 
         // 6 animate centering of all content
-        Animator centerContentAnimation = createContentCenteringVerticalAnimation(newContentText, newContentIcon);
+       // Animator centerContentAnimation = createContentCenteringVerticalAnimation(newContentText, newContentIcon);
 
-        centerContentAnimation.start();
+        //centerContentAnimation.start();
         bgAnimation.start();
         pagerMoveAnimation.start();
         pagerIconAnimation.start();
         contentIconShowAnimation.start();
         contentTextShowAnimation.start();
+        // Hiding the old or current Text/Icon after animation
+        currentContentText.setVisibility(View.GONE);
+        currentContentIcon.setVisibility(View.GONE);
 
         if (mOnChangeListener != null)
             mOnChangeListener.onPageChanged(oldElementIndex, mActiveElementIndex);
@@ -327,22 +330,30 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
      * @param newContentIcon     newly created and prepared view to display
      * @return animator set with this animation
      */
-    protected AnimatorSet createContentIconShowAnimation(final View currentContentIcon, final View newContentIcon) {
+    protected AnimatorSet createContentIconShowAnimation2(final View currentContentIcon, final View newContentIcon) {
         int positionDeltaPx = dpToPixels(CONTENT_ICON_POS_DELTA_Y_DP);
         AnimatorSet animations = new AnimatorSet();
-        Animator currentContentMoveUp = ObjectAnimator.ofFloat(currentContentIcon, "y", 0, -positionDeltaPx);
-        currentContentMoveUp.setDuration(ANIM_CONTENT_ICON_HIDE_TIME);
+        Animator currentContentFadeOut = ObjectAnimator.ofFloat(currentContentIcon, "alpha", 1, 0);
+        currentContentFadeOut.setDuration(ANIM_CONTENT_ICON_HIDE_TIME);
+        animations.play(currentContentFadeOut);
 
-        currentContentMoveUp.addListener(new AnimatorEndListener() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mContentIconContainer.removeView(currentContentIcon);
-            }
-        });
+        Animator newContentFadeIn = ObjectAnimator.ofFloat(newContentIcon, "alpha", 0, 1);
+        newContentFadeIn.setDuration(ANIM_CONTENT_ICON_SHOW_TIME);
+        animations.play(newContentFadeIn);
+
+        animations.setInterpolator(new DecelerateInterpolator());
+
+        return animations;
+    }
+
+    protected AnimatorSet createContentIconShowAnimation1(final View currentContentIcon, final View newContentIcon) {
+        int positionDeltaPx = dpToPixels(CONTENT_ICON_POS_DELTA_Y_DP);
+        AnimatorSet animations = new AnimatorSet();
+
         Animator currentContentFadeOut = ObjectAnimator.ofFloat(currentContentIcon, "alpha", 1, 0);
         currentContentFadeOut.setDuration(ANIM_CONTENT_ICON_HIDE_TIME);
 
-        animations.playTogether(currentContentMoveUp, currentContentFadeOut);
+        animations.playTogether(currentContentFadeOut);
 
         Animator newContentMoveUp = ObjectAnimator.ofFloat(newContentIcon, "y", positionDeltaPx, 0);
         newContentMoveUp.setDuration(ANIM_CONTENT_ICON_SHOW_TIME);
@@ -479,10 +490,17 @@ public class PaperOnboardingEngine implements PaperOnboardingEngineDefaults {
      */
     protected ImageView createContentIconView(PaperOnboardingPage PaperOnboardingPage) {
         ImageView contentIcon = new ImageView(mAppContext);
-        contentIcon.setImageResource(PaperOnboardingPage.getContentIconRes());
-        FrameLayout.LayoutParams iconLP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        iconLP.gravity = Gravity.CENTER;
-        contentIcon.setLayoutParams(iconLP);
+        if(PaperOnboardingPage.isGif()){
+            Glide.with(mAppContext).load(PaperOnboardingPage.getContentIconRes()).into(contentIcon);
+            /*Glide.with(mAppContext)
+                    .load(PaperOnboardingPage.getContentIconRes())
+                    .into(contentIcon);*/
+        } else {
+            contentIcon.setImageResource(PaperOnboardingPage.getContentIconRes());
+        }
+/*        FrameLayout.LayoutParams iconLP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        iconLP.gravity = Gravity.START;
+        contentIcon.setLayoutParams(iconLP);*/
         return contentIcon;
     }
 

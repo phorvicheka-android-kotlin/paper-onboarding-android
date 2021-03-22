@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboardingRootView"
     android:layout_width="match_parent"
+    android:background="@drawable/ic___1____1"
     android:layout_height="match_parent">
 
     <!-- BG COLORS CONTAINER -->
     <FrameLayout
         android:id="@+id/onboardingBackgroundContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <!-- MAIN LAYOUT SECTION -->
     <RelativeLayout
@@ -21,32 +24,55 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:baselineAligned="false"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical">
-
-            <!-- ICON CONTAINER -->
-            <FrameLayout
-                android:id="@+id/onboardingContentIconContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:clipChildren="false"
-                android:clipToPadding="false" />
+            android:orientation="horizontal">
 
             <!-- TEXT CONTAINER -->
             <FrameLayout
                 android:id="@+id/onboardingContentTextContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:clipChildren="false"
-                android:clipToPadding="false" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:textColor="#fd5249"
+                        android:textSize="70sp"
+                        tools:text="01" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#343d5d"
+                        android:textSize="70sp"
+                        tools:text="컨트롤이 쉬워진\n마사지 리모컨을\n사용해보세요" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- ICON CONTAINER -->
+            <FrameLayout
+                android:id="@+id/onboardingContentIconContainer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:scaleX="0.8"
+                android:scaleY="0.8" />
 
         </LinearLayout>
 
@@ -59,7 +85,7 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="35dp"
         android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal" />
@@ -68,26 +94,30 @@
         android:id="@+id/skipText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:text="Skip"
-        android:textSize="20sp" />
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="40dp"
+        android:text="건너뛰기"
+        android:textColor="#7d87ab"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/nextText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:text="Next"
-        android:textSize="20sp"
-        android:visibility="gone" />
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="40dp"
+        android:gravity="end"
+        android:text="다음"
+        android:textColor="#343d5d"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/finishText"
@@ -95,11 +125,32 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="25dp"
-        android:text="Finish"
-        android:textSize="20sp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="40dp"
+        android:gravity="end"
+        android:text="시잔해보기"
+        android:textColor="#343d5d"
+        android:textSize="26sp"
         android:visibility="gone" />
+
+    <!--<Button
+        android:id="@+id/finishButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:gravity="end"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="시잔해보기"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:visibility="invisible"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtendedRound" />-->
 
 </RelativeLayout>
